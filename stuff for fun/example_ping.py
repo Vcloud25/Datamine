@@ -1,7 +1,6 @@
-# vulnerable_cmd.py (DO NOT use on real systems)
-import os
+print('hello world')
 
-host = input("Enter host to ping: ")
+x = 5
+y = 10
+print(x + y)
 
-# RISKY: passing user input into shell command (shell interprets metacharacters)
-os.system("ping -n 4 " + host)

@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Arena Multiplayer+</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <div class="brand">
+        <div class="logo"></div>
+        <div>
+          <div class="h1">Arena Battle Simulator</div>
+          <div class="sub">Multiplayer+: spectators + real damage + match history/replay</div>
+        </div>
+      </div>
+
+      <div class="roomBox">
+        <input id="roomCode" placeholder="ROOM CODE (e.g. AB12)" maxlength="10" />
+        <button id="joinBtn" class="btn">Join</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="card">
+        <div class="row">
+          <div class="pill">You are: <b id="slotLabel">—</b></div>
+          <div class="pill alt">Room: <b id="roomLabel">—</b></div>
+        </div>
+
+        <div class="grid2">
+          <div class="panel">
+            <div class="panelTitle">Your Fighter</div>
+            <div id="spectatorBanner" class="banner" style="display:none;">
+              You joined as a <b>SPECTATOR</b>. You can watch, replay history, and view the fight live — but you can’t edit fighters/weights.
+            </div>
+
+            <div class="avatar">
+              <img id="avatarImg" />
+              <div id="avatarFallback" class="avatarFallback">?</div>
+              <div class="avatarActions">
+                <label class="btn small" id="uploadBtnWrap">
+                  Upload
+                  <input id="avatarFile" type="file" accept="image/*" hidden />
+                </label>
+                <button id="clearAvatar" class="btn small ghost">Clear</button>
+              </div>
+              <div class="tiny">Tip: keep images small.</div>
+            </div>
+
+            <label class="field">
+              <span>Name</span>
+              <input id="name" />
+            </label>
+            <label class="field">
+              <span>Ability</span>
+              <input id="ability" />
+            </label>
+
+            <div class="stats">
+              <div class="statsTop">
+                <div class="panelTitle">Stats</div>
+                <div id="total" class="total">Total: 0.00 / 35</div>
+              </div>
+
+              <div class="statGrid">
+                <label class="field smallField"><span>Strength</span><input id="strength" type="number" step="0.1"/></label>
+                <label class="field smallField"><span>Speed</span><input id="speed" type="number" step="0.1"/></label>
+                <label class="field smallField"><span>Endurance</span><input id="endurance" type="number" step="0.1"/></label>
+                <label class="field smallField"><span>Defense</span><input id="defense" type="number" step="0.1"/></label>
+                <label class="field smallField"><span>Intellect</span><input id="intellect" type="number" step="0.1"/></label>
+              </div>
+            </div>
+
+            <button id="readyBtn" class="btn ready">READY</button>
+          </div>
+
+          <div class="panel">
+            <div class="panelTitle">Room Status</div>
+            <div id="status" class="status">Join a room to begin.</div>
+
+            <div class="weights">
+              <div class="weightsTop">
+                <div class="panelTitle">Weights (room-wide)</div>
+                <button id="saveWeights" class="btn small ghost">Save Weights</button>
+              </div>
+
+              <div class="statGrid">
+                <label class="field smallField"><span>Strength</span><input id="w_strength" type="number" step="0.01"/></label>
+                <label class="field smallField"><span>Speed</span><input id="w_speed" type="number" step="0.01"/></label>
+                <label class="field smallField"><span>Endurance</span><input id="w_endurance" type="number" step="0.01"/></label>
+                <label class="field smallField"><span>Defense</span><input id="w_defense" type="number" step="0.01"/></label>
+                <label class="field smallField"><span>Intellect</span><input id="w_intellect" type="number" step="0.01"/></label>
+              </div>
+            </div>
+
+            <div class="history">
+              <div class="weightsTop">
+                <div class="panelTitle">Match History</div>
+                <button id="refreshHistory" class="btn small ghost">Refresh</button>
+              </div>
+              <div id="historyList" class="historyList">No matches yet.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card fightCard">
+        <div class="fightTop">
+          <div class="panelTitle">Fight</div>
+          <div class="fightTopRight">
+            <div class="pill mini">Match: <b id="matchLabel">—</b></div>
+            <button id="rematchBtn" class="btn small">Rematch</button>
+          </div>
+        </div>
+
+        <div class="arena">
+          <div class="floor"></div>
+
+          <div class="fighter left" id="fA">
+            <div class="nameplate" id="nA">A</div>
+            <div class="sprite">
+              <img id="imgA" />
+              <div class="spriteFallback" id="fbA">A</div>
+            </div>
+            <div class="hp"><div class="hpFill" id="hpA"></div></div>
+          </div>
+
+          <div class="fx" id="fx"></div>
+
+          <div class="fighter right" id="fB">
+            <div class="nameplate" id="nB">B</div>
+            <div class="sprite">
+              <img id="imgB" />
+              <div class="spriteFallback" id="fbB">B</div>
+            </div>
+            <div class="hp"><div class="hpFill" id="hpB"></div></div>
+          </div>
+        </div>
+
+        <pre id="log" class="log"></pre>
+
+        <div id="scoreWrap" class="scoreWrap"></div>
+        <div id="winner" class="winner"></div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="client.js"></script>
+</body>
+</html>
